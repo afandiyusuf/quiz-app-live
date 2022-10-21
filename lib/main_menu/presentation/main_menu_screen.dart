@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:quiz_app/constants.dart';
+import 'package:quiz_app/main_menu/presentation/widget/high_score_widget.dart';
+import 'package:quiz_app/main_menu/presentation/widget/profile_widget.dart';
+import 'package:quiz_app/question/presetation/question_screen.dart';
 
 class MainMenuScreen extends StatelessWidget {
   static const tag = "/main-menu";
@@ -8,39 +12,54 @@ class MainMenuScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF8B63FD),
+      backgroundColor: Themes.purpleBg,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
           child: Column(
             children: [
-              Row(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Welcome Back",
-                        style: TextStyle(color: Colors.white, fontSize: 10),
-                      ),
-                      Text(
-                        "Yusuf Afandi",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 18,
-                            color: Colors.white),
-                      )
-                    ],
+              ProfileWidget(),
+              SizedBox(
+                height: 30,
+              ),
+              HighScoreWidget(),
+              SizedBox(
+                height: 40,
+              ),
+              Expanded(child: Image.asset("assets/splash_bg.png")),
+              SizedBox(
+                height: 15,
+              ),
+              Text(
+                "Mulai Quiz dan raih Score tertinggi",
+                style: TextStyle(
+                    color: Themes.purple1,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600),
+              ),
+              SizedBox(
+                height: 35,
+              ),
+              Container(
+                width: double.infinity,
+                child: MaterialButton(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: Text(
+                      "START",
+                      style: TextStyle(color: Colors.white, fontSize: 26),
+                    ),
                   ),
-                  Spacer(),
-                  Container(
-                    width: 50,
-                    height: 50,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: Colors.white),
-                  )
-                ],
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8)),
+                  onPressed: () {
+                    Navigator.pushNamed(context, QuestionScreen.tag);
+                  },
+                  color: Themes.orange,
+                ),
+              ),
+              SizedBox(
+                height: 30,
               )
             ],
           ),

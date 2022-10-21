@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quiz_app/main_menu/presentation/main_menu_screen.dart';
+import 'package:quiz_app/question/presetation/question_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,7 +27,11 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MainMenuScreen(),
+      initialRoute: MainMenuScreen.tag,
+      routes: {
+        MainMenuScreen.tag : (_) => MainMenuScreen(),
+        QuestionScreen.tag : (_) => QuestionScreen()
+      },
     );
   }
 }
