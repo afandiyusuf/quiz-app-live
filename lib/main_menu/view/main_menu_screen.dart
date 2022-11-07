@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:quiz_app/constants.dart';
-import 'package:quiz_app/main_menu/presentation/widget/high_score_widget.dart';
-import 'package:quiz_app/main_menu/presentation/widget/profile_widget.dart';
-import 'package:quiz_app/question/presetation/question_screen.dart';
+import 'package:quiz_app/question/view/question_screen.dart';
+
+import 'widget/high_score_widget.dart';
+import 'widget/profile_widget.dart';
 
 class MainMenuScreen extends StatelessWidget {
   static const tag = "/main-menu";
@@ -18,47 +20,48 @@ class MainMenuScreen extends StatelessWidget {
           padding: const EdgeInsets.all(24.0),
           child: Column(
             children: [
-              ProfileWidget(),
-              SizedBox(
+              const ProfileWidget(),
+              const SizedBox(
                 height: 30,
               ),
-              HighScoreWidget(),
-              SizedBox(
+              const HighScoreWidget(),
+              const SizedBox(
                 height: 40,
               ),
               Expanded(child: Image.asset("assets/splash_bg.png")),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               Text(
                 "Mulai Quiz dan raih Score tertinggi",
-                style: TextStyle(
+                style: GoogleFonts.lato(
                     color: Themes.purple1,
                     fontSize: 16,
                     fontWeight: FontWeight.w600),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 35,
               ),
-              Container(
+              SizedBox(
                 width: double.infinity,
                 child: MaterialButton(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10.0),
-                    child: Text(
-                      "START",
-                      style: TextStyle(color: Colors.white, fontSize: 26),
-                    ),
-                  ),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8)),
                   onPressed: () {
                     Navigator.pushNamed(context, QuestionScreen.tag);
                   },
                   color: Themes.orange,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: Text(
+                      "START",
+                      style:
+                          GoogleFonts.lato(color: Colors.white, fontSize: 26),
+                    ),
+                  ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               )
             ],
