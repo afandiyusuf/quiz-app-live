@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:quiz_app/constants.dart';
 import 'package:quiz_app/question/view/widget/custom_button.dart';
+import 'package:quiz_app/question/view_model/question_screen_view_model.dart';
 
 class EndScreen extends StatelessWidget {
   static const String tag = "/end-screen";
@@ -10,6 +12,8 @@ class EndScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    QuestionScreenViewModel viewModel =
+        context.watch<QuestionScreenViewModel>();
     return Scaffold(
       body: Container(
         width: MediaQuery.of(context).size.width,
@@ -39,7 +43,7 @@ class EndScreen extends StatelessWidget {
                         height: 5,
                       ),
                       Text(
-                        "10.000",
+                        "${viewModel.correctAnswer * 100}",
                         style: GoogleFonts.poppins(
                             fontSize: 47,
                             fontWeight: FontWeight.w700,
@@ -49,7 +53,7 @@ class EndScreen extends StatelessWidget {
                         height: 6,
                       ),
                       Text(
-                        "Selesai, kamu menjawab dengan benar 20 dari 20 pertanyaan.",
+                        "Selesai, kamu menjawab dengan benar ${viewModel.correctAnswer} dari ${viewModel.totalQuiz} pertanyaan.",
                         textAlign: TextAlign.center,
                         style: GoogleFonts.poppins(
                             color: Themes.purpleBg, fontSize: 16),

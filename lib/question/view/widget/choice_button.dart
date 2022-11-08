@@ -5,11 +5,19 @@ class ChoiceButton extends StatelessWidget {
   final String label;
   final bool isTrue;
   final int index;
+  final Function onTap;
+  final Color borderColor;
+  final Color? fillColor;
+  final TextStyle labelStyle;
 
   const ChoiceButton(
       {Key? key,
+      this.fillColor,
+      required this.onTap,
       required this.label,
       required this.isTrue,
+      required this.borderColor,
+      required this.labelStyle,
       required this.index})
       : super(key: key);
 
@@ -30,18 +38,19 @@ class ChoiceButton extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: InkWell(
         onTap: () {
-          print("apakah jawaban benar? $isTrue");
+          onTap();
         },
         child: Container(
           height: 56,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: Themes.grey)),
+              color: fillColor,
+              border: Border.all(color: borderColor)),
           width: double.infinity,
           child: Center(
               child: Text(
             "${_convertIndexToString(index)}.$label",
-            style: TextStyle(color: Colors.black, fontSize: 18),
+            style:labelStyle,
           )),
         ),
       ),

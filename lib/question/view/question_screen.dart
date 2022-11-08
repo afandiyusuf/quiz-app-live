@@ -41,6 +41,7 @@ class QuestionScreen extends StatelessWidget {
               totalQuiz: 10,
               currentQuizIndex:
                   context.watch<QuestionScreenViewModel>().currentQuiz,
+              quizStatus: context.watch<QuestionScreenViewModel>().quizStatus,
             ),
             const SizedBox(
               height: 50,
@@ -57,15 +58,49 @@ class QuestionScreen extends StatelessWidget {
             ),
             ListView.builder(
                 shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
                 itemCount:
                     model.allQuiz[model.currentQuiz].answerChoices.length,
                 itemBuilder: (context, index) {
                   Answer answer =
                       model.allQuiz[model.currentQuiz].answerChoices[index];
+                  Color borderColor = Themes.grey;
+                  QuestionScreenViewModel viewModel =
+                      context.watch<QuestionScreenViewModel>();
+
+                  if (viewModel.answerStatus[viewModel.currentQuiz] == 1) {
+                    if (viewModel.quizAnswer[viewModel.currentQuiz] == index) {
+                      borderColor = Themes.purple1;
+                    }
+                  }
+
+                  Color? fillColor;
+                  TextStyle labelStyle =
+                      const TextStyle(color: Colors.black, fontSize: 18);
+                  if (viewModel.quizAnswer[viewModel.currentQuiz] == index) {
+                    if (viewModel.quizStatus[viewModel.currentQuiz] == 1) {
+                      fillColor = Themes.purple1;
+                      labelStyle = const TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700);
+                    }
+                  }
+
                   return Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10.0),
                     child: ChoiceButton(
+                      onTap: () {
+                        int currentQuizIndex =
+                            context.read<QuestionScreenViewModel>().currentQuiz;
+                        context
+                            .read<QuestionScreenViewModel>()
+                            .answer(currentQuizIndex, index);
+                      },
+                      labelStyle: labelStyle,
+                      borderColor: borderColor,
                       index: index,
+                      fillColor: fillColor,
                       label: answer.answer,
                       isTrue: answer.isTrue,
                     ),
@@ -84,7 +119,14 @@ class QuestionScreen extends StatelessWidget {
                       child: Padding(
                     padding: const EdgeInsets.only(left: 20.0),
                     child: CustomButton(
-                        label: "PREV", borderColor: Themes.purpleBg),
+                        onPressed: () {
+                          context.read<QuestionScreenViewModel>().prev();
+                        },
+                        label: "PREV",
+                        borderColor:
+                            context.watch<QuestionScreenViewModel>().isFirstQuiz
+                                ? Themes.grey
+                                : Themes.purple1),
                   )),
                   const SizedBox(
                     width: 20,
@@ -93,7 +135,14 @@ class QuestionScreen extends StatelessWidget {
                       child: Padding(
                     padding: const EdgeInsets.only(right: 20.0),
                     child: CustomButton(
-                        label: "SKIP", borderColor: Themes.purpleBg),
+                        onPressed: () {
+                          context.read<QuestionScreenViewModel>().next();
+                        },
+                        label: "SKIP",
+                        borderColor:
+                            context.watch<QuestionScreenViewModel>().isLastQuiz
+                                ? Themes.grey
+                                : Themes.purple1),
                   ))
                 ],
               ),
@@ -104,10 +153,19 @@ class QuestionScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: CustomButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, EndScreen.tag);
+                onPressed: ()  {
+                  int returnVal = context.read<QuestionScreenViewModel>().confirmAnswer(
+                      context.read<QuestionScreenViewModel>().currentQuiz);
+                  if(returnVal == 99){
+                    Navigator.pushNamed(context, EndScreen.tag);
+                  }
                 },
-                label: "CONFIRM",
+                label: context
+                            .watch<QuestionScreenViewModel>()
+                            .allQuestionsAnswered() ==
+                        true
+                    ? "FINISH"
+                    : "CONFIRM",
                 borderColor: Themes.purpleBg,
                 fillColor: Themes.purpleBg,
                 textColor: Colors.white,
