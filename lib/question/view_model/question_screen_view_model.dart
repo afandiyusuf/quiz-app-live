@@ -1,25 +1,10 @@
 import 'package:flutter/cupertino.dart';
+import 'package:quiz_app/bank_quiz.dart';
 
 import '../model/quiz.dart';
 
 class QuestionScreenViewModel extends ChangeNotifier {
-  List<Quiz> allQuiz = [
-    Quiz(question: "1+1", answerChoices: [
-      Answer(answer: "4", isTrue: false),
-      Answer(answer: "3", isTrue: false),
-      Answer(answer: "2", isTrue: true),
-    ]),
-    Quiz(question: "Ibukota Jawa Timur?", answerChoices: [
-      Answer(answer: "Surabaya", isTrue: true),
-      Answer(answer: "Semarang", isTrue: false),
-      Answer(answer: "Solo", isTrue: false),
-    ]),
-    Quiz(question: "10 + 10?", answerChoices: [
-      Answer(answer: "21", isTrue: false),
-      Answer(answer: "20", isTrue: true),
-      Answer(answer: "23", isTrue: false),
-    ]),
-  ];
+  List<Quiz> allQuiz = bankQuiz;
 
   bool allQuestionsAnswered() {
     bool allAnswered = true;
@@ -48,7 +33,7 @@ class QuestionScreenViewModel extends ChangeNotifier {
   bool get isFirstQuiz => _isFirstQuiz;
 
   //store user answer index,
-  List<int?> _quizAnswer = [null, null, null];
+  List<int?> _quizAnswer = List<int?>.from(bankQuiz.map((e) => null));
 
   List<int?> get quizAnswer => _quizAnswer;
 
@@ -60,7 +45,7 @@ class QuestionScreenViewModel extends ChangeNotifier {
   // 0 = idle
   // 1 = answer - not confirmed;
   // 2 = answer - final;
-  List<int> _answerStatus = [0, 0, 0];
+  List<int> _answerStatus = List<int>.from(bankQuiz.map((e) => 0));
 
   List<int> get answerStatus => _answerStatus;
 
@@ -71,7 +56,7 @@ class QuestionScreenViewModel extends ChangeNotifier {
 
   //0 = belum dijawab
   //1 = sudah dijawab
-  List<int> _quizStatus = [0, 0, 0];
+  List<int> _quizStatus = List<int>.from(bankQuiz.map((e) => 0));
 
   List<int> get quizStatus => _quizStatus;
 

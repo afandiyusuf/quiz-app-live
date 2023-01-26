@@ -53,6 +53,13 @@ class QuestionScreen extends StatelessWidget {
                 style: const TextStyle(color: Colors.black, fontSize: 20),
               ),
             )),
+            (model.allQuiz[model.currentQuiz].imageUrl != null)
+                ? SizedBox(
+                    width: 100,
+                    height: 100,
+                    child:
+                        Image.asset(model.allQuiz[model.currentQuiz].imageUrl!))
+                : Container(),
             const SizedBox(
               height: 50,
             ),
@@ -153,10 +160,12 @@ class QuestionScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: CustomButton(
-                onPressed: ()  {
-                  int returnVal = context.read<QuestionScreenViewModel>().confirmAnswer(
-                      context.read<QuestionScreenViewModel>().currentQuiz);
-                  if(returnVal == 99){
+                onPressed: () {
+                  int returnVal = context
+                      .read<QuestionScreenViewModel>()
+                      .confirmAnswer(
+                          context.read<QuestionScreenViewModel>().currentQuiz);
+                  if (returnVal == 99) {
                     Navigator.pushNamed(context, EndScreen.tag);
                   }
                 },
